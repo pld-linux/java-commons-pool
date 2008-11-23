@@ -1,16 +1,18 @@
-# TODO
-# - rename to apache-commons-pool?
+#
+# Conditional build:
+%bcond_without	javadoc		# don't build javadoc
+
 %include	/usr/lib/rpm/macros.java
 Summary:	Commons Pool - object pooling interfaces
 Summary(pl.UTF-8):	Commons Pool - interfejsy gospodarujące obiektami
-Name:		jakarta-commons-pool
+Name:		java-commons-pool
 Version:	1.3
 Release:	3
 License:	Apache
-Group:		Development/Languages/Java
+Group:		Libraries/Java
 Source0:	http://www.apache.org/dist/commons/pool/source/commons-pool-%{version}-src.tar.gz
 # Source0-md5:	a2dcdff75de2af76f5f2169494ed3499
-Source1:	%{name}-tomcat5-build.xml
+Source1:	jakarta-commons-pool-tomcat5-build.xml
 URL:		http://commons.apache.org/pool/
 BuildRequires:	ant
 BuildRequires:	jakarta-commons-collections >= 1.0
@@ -19,7 +21,10 @@ BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 Requires:	jakarta-commons-collections >= 1.0
+Requires:	jpackage-utils
 Requires:	jre >= 1.2
+Provides:	jakarta-commons-pool
+Obsoletes:	jakarta-commons-pool
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -68,22 +73,24 @@ export CLASSPATH=$(build-classpath $required_jars)
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_javadir}
-install dist/commons-pool-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/commons-pool-%{version}.jar
+cp -a dist/commons-pool-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/commons-pool-%{version}.jar
 ln -s commons-pool-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/commons-pool.jar
 
-install pool-tomcat5/commons-pool-tomcat5.jar $RPM_BUILD_ROOT%{_javadir}/commons-pool-tomcat5-%{version}.jar
+cp -a pool-tomcat5/commons-pool-tomcat5.jar $RPM_BUILD_ROOT%{_javadir}/commons-pool-tomcat5-%{version}.jar
 ln -sf commons-pool-tomcat5-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/commons-pool-tomcat5.jar
 
 # javadoc
+%if %{with javadoc}
 install -d $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 cp -a dist/docs/api/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name} # ghost symlink
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post javadoc
-ln -sf %{name}-%{version} %{_javadocdir}/%{name}
+ln -nfs %{name}-%{version} %{_javadocdir}/%{name}
 
 %files
 %defattr(644,root,root,755)
@@ -96,7 +103,9 @@ ln -sf %{name}-%{version} %{_javadocdir}/%{name}
 %{_javadir}/commons-pool-tomcat5.jar
 %{_javadir}/commons-pool-tomcat5-%{version}.jar
 
+%if %{with javadoc}
 %files javadoc
 %defattr(644,root,root,755)
 %{_javadocdir}/%{name}-%{version}
 %ghost %{_javadocdir}/%{name}
+%endif
