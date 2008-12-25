@@ -15,12 +15,12 @@ Source0:	http://www.apache.org/dist/commons/pool/source/commons-pool-%{version}-
 Source1:	jakarta-commons-pool-tomcat5-build.xml
 URL:		http://commons.apache.org/pool/
 BuildRequires:	ant
-BuildRequires:	jakarta-commons-collections >= 1.0
+BuildRequires:	java-commons-collections >= 1.0
 BuildRequires:	jdk >= 1.2
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
-Requires:	jakarta-commons-collections >= 1.0
+Requires:	java-commons-collections >= 1.0
 Requires:	jpackage-utils
 Requires:	jre >= 1.2
 Provides:	jakarta-commons-pool
@@ -40,7 +40,9 @@ oraz dostarcza kilku implementacji ogólnego przeznaczenia.
 Summary:	Commons Pool documentation
 Summary(pl.UTF-8):	Dokumentacja do Commons Pool
 Group:		Documentation
+Provides:	jakarta-commons-pool-javadoc
 Obsoletes:	jakarta-commons-pool-doc
+Obsoletes:	jakarta-commons-pool-javadoc
 
 %description javadoc
 Commons Pool documentation.
@@ -52,7 +54,9 @@ Dokumentacja do Commons Pool.
 Summary:	Commons Pool dependency for Tomcat5
 Summary(pl.UTF-8):	Elementy Commons Pool dla Tomcata 5
 Group:		Development/Languages/Java
+Provides:	jakarta-commons-pool-tomcat5
 Obsoletes:	jakarta-commons-pool-source
+Obsoletes:	jakarta-commons-pool-tomcat5
 
 %description tomcat5
 Commons Pool dependency for Tomcat5.
