@@ -1,6 +1,11 @@
 #
 # Conditional build:
 %bcond_without	javadoc		# don't build javadoc
+%if "%{pld_release}" == "ti"
+%bcond_without	java_sun	# build with gcj
+%else
+%bcond_with	java_sun	# build with java-sun
+%endif
 
 %include	/usr/lib/rpm/macros.java
 
@@ -18,8 +23,10 @@ Source1:	jakarta-commons-pool-tomcat5-build.xml
 URL:		http://commons.apache.org/pool/
 BuildRequires:	ant
 BuildRequires:	java-commons-collections >= 1.0
-BuildRequires:	java-gcj-compat-devel
+%{!?with_java_sun:BuildRequires:	java-gcj-compat-devel}
+%{?with_java_sun:BuildRequires:	java-sun}
 BuildRequires:	jpackage-utils
+BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 Requires:	java-commons-collections >= 1.0
@@ -73,13 +80,8 @@ cp %{SOURCE1} tomcat5-build.xml
 required_jars="commons-collections"
 export CLASSPATH=$(build-classpath $required_jars)
 %ant clean
-%ant -Dbuild.compiler=extJavac build-jar
-%ant -Dbuild.compiler=extJavac -f tomcat5-build.xml
-
-%if %{with javadoc}
-export SHELL=/bin/sh
-%ant javadoc
-%endif
+%ant build-jar %{?with_javadoc:javadoc}
+%ant -f tomcat5-build.xml
 
 %install
 rm -rf $RPM_BUILD_ROOT
