@@ -1,12 +1,6 @@
 #
 # Conditional build:
 %bcond_with	javadoc		# don't build javadoc
-%if "%{pld_release}" == "ti"
-%bcond_without	java_sun	# build with gcj
-%else
-%bcond_with	java_sun	# build with java-sun
-%endif
-
 %include	/usr/lib/rpm/macros.java
 
 %define		srcname	commons-pool
@@ -23,10 +17,8 @@ Source1:	jakarta-commons-pool-tomcat5-build.xml
 URL:		http://commons.apache.org/pool/
 BuildRequires:	ant
 BuildRequires:	java-commons-collections >= 1.0
-%{!?with_java_sun:BuildRequires:	java-gcj-compat-devel}
-%{?with_java_sun:BuildRequires:	java-sun}
+BuildRequires:	jdk
 BuildRequires:	jpackage-utils
-BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 Requires:	java-commons-collections >= 1.0
