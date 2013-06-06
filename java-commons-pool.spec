@@ -7,12 +7,12 @@
 Summary:	Commons Pool - object pooling interfaces
 Summary(pl.UTF-8):	Commons Pool - interfejsy gospodarujące obiektami
 Name:		java-commons-pool
-Version:	1.5.4
+Version:	1.5.7
 Release:	1
 License:	Apache
 Group:		Libraries/Java
 Source0:	http://www.apache.org/dist/commons/pool/source/commons-pool-%{version}-src.tar.gz
-# Source0-md5:	4216bb6eca49e7b3db9f287d7b0c0cd8
+# Source0-md5:	fcec4e996efda82ec8643dd2aeb63c7c
 Source1:	jakarta-commons-pool-tomcat5-build.xml
 URL:		http://commons.apache.org/pool/
 BuildRequires:	ant
@@ -78,7 +78,7 @@ export CLASSPATH=$(build-classpath $required_jars)
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_javadir}
-cp -a dist/%{srcname}.jar $RPM_BUILD_ROOT%{_javadir}/%{srcname}-%{version}.jar
+cp -a dist/%{srcname}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{srcname}-%{version}.jar
 ln -s %{srcname}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{srcname}.jar
 
 cp -a pool-tomcat5/%{srcname}-tomcat5.jar $RPM_BUILD_ROOT%{_javadir}/%{srcname}-tomcat5-%{version}.jar
