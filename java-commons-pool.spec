@@ -1,14 +1,14 @@
 #
 # Conditional build:
 %bcond_with	javadoc		# don't build javadoc
-%include	/usr/lib/rpm/macros.java
 
 %define		srcname	commons-pool
+%include	/usr/lib/rpm/macros.java
 Summary:	Commons Pool - object pooling interfaces
 Summary(pl.UTF-8):	Commons Pool - interfejsy gospodarujące obiektami
 Name:		java-commons-pool
 Version:	1.5.7
-Release:	1
+Release:	2
 License:	Apache
 Group:		Libraries/Java
 Source0:	http://www.apache.org/dist/commons/pool/source/commons-pool-%{version}-src.tar.gz
@@ -23,7 +23,6 @@ BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 Requires:	java-commons-collections >= 1.0
 Requires:	jpackage-utils
-Provides:	jakarta-commons-pool
 Obsoletes:	jakarta-commons-pool
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -40,7 +39,6 @@ oraz dostarcza kilku implementacji ogólnego przeznaczenia.
 Summary:	Commons Pool documentation
 Summary(pl.UTF-8):	Dokumentacja do Commons Pool
 Group:		Documentation
-Provides:	jakarta-commons-pool-javadoc
 Obsoletes:	jakarta-commons-pool-doc
 Obsoletes:	jakarta-commons-pool-javadoc
 
@@ -54,7 +52,6 @@ Dokumentacja do Commons Pool.
 Summary:	Commons Pool dependency for Tomcat5
 Summary(pl.UTF-8):	Elementy Commons Pool dla Tomcata 5
 Group:		Development/Languages/Java
-Provides:	jakarta-commons-pool-tomcat5
 Obsoletes:	jakarta-commons-pool-source
 Obsoletes:	jakarta-commons-pool-tomcat5
 
@@ -66,7 +63,7 @@ Elementy Commons Pool dla Tomcata 5.
 
 %prep
 %setup -q -n commons-pool-%{version}-src
-cp %{SOURCE1} tomcat5-build.xml
+cp -p %{SOURCE1} tomcat5-build.xml
 
 %build
 required_jars="commons-collections"
