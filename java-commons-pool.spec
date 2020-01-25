@@ -3,7 +3,6 @@
 %bcond_with	javadoc		# don't build javadoc
 
 %define		srcname	commons-pool
-%include	/usr/lib/rpm/macros.java
 Summary:	Commons Pool - object pooling interfaces
 Summary(pl.UTF-8):	Commons Pool - interfejsy gospodarujące obiektami
 Name:		java-commons-pool
